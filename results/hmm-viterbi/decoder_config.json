@@ -1,0 +1,7 @@
+{
+  "beta_m": 10.0,
+  "max_gap_s": 10.0,
+  "max_speed_mps": 55.0,
+  "distance_slack_m": 35.0,
+  "reverse_jitter_m": 10.0
+}
