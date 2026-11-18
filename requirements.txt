@@ -1,15 +1,30 @@
-numpy
-pandas
-scipy
-scikit-learn
-pyproj
-shapely
-networkx
-folium
-matplotlib
-optuna
-lightgbm
-fastapi
-uvicorn
-joblib
-requests
+# PathSnap: Distributed Map-Matching & Trajectory Reconstruction
+# Core Machine Learning & Scientific Computing
+numpy>=2.0.0
+pandas>=2.2.0
+scipy>=1.13.0
+scikit-learn>=1.6.0
+joblib>=1.4.0
+
+# Geospatial Processing & Visualisation
+folium>=0.19.0
+branca>=0.8.0
+pyproj>=3.6.0
+shapely>=2.0.0
+networkx>=3.2.0
+matplotlib>=3.8.0
+
+# Hyperparameter Optimisation
+optuna>=4.0.0
+lightgbm>=4.3.0
+
+# Testing & Quality Assurance
+pytest>=8.0.0
+
+# Deep Learning (Benchmarking)
+torch>=2.2.0
+
+# Backend & API Serving (Laptop 1 / Laptop 2)
+fastapi>=0.110.0
+uvicorn>=0.28.0
+requests>=2.31.0

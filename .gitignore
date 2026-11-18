@@ -1,19 +1,45 @@
 # Raw data (provided separately; do not commit)
 data/*
 !data/.gitkeep
-Student folder/
 student_test/
 train/
 *.zip
-*.mp4
+
+# Python cache and byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE and Editor configuration
+.vscode/
+.idea/
+.ipynb_checkpoints/
+*.swp
+*.swo
+*~
+
+# OS artifacts
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporary scratch media from problem analysis
+video_frames/
+problem_statement_audio.wav
+
 # Secrets
 .env
 *.key
 *.pem
-# Python
-__pycache__/
-*.pyc
-.venv/
-venv/
-.ipynb_checkpoints/
-.DS_Store

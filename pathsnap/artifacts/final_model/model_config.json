@@ -1,0 +1,39 @@
+{
+  "model_family": "HistGradientBoostingClassifier",
+  "framework": "scikit-learn 1.6.1",
+  "creation_timestamp": "2026-11-18T12:05:58.153699",
+  "input_features": [
+    "dist_perp",
+    "arc_length",
+    "proj_ratio",
+    "gps_displacement",
+    "dist_margin",
+    "road_bearing",
+    "gps_bearing",
+    "angular_diff",
+    "heading_cos",
+    "dt_sec",
+    "speed_mps",
+    "accel_mps2",
+    "is_connected_prev",
+    "net_to_euc_ratio",
+    "target_out_degree",
+    "spatial_likelihood",
+    "cand_rank",
+    "cand_rel_dist"
+  ],
+  "num_features": 18,
+  "hyperparameters": {
+    "learning_rate": 0.04195308906464341,
+    "max_iter": 160,
+    "max_leaf_nodes": 29,
+    "min_samples_leaf": 30,
+    "l2_regularization": 0.3385226783451977,
+    "class_weight": "balanced"
+  },
+  "training_samples": 1208139,
+  "training_trips": 80,
+  "fit_time_seconds": 70.25139355659485,
+  "target_variable": "target (1 = true road segment, 0 = alternative candidate)",
+  "intended_use": "GPS Map-Matching HMM Emission Probability Generation"
+}

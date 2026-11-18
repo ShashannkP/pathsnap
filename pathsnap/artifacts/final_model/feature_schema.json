@@ -1,0 +1,168 @@
+{
+  "features": [
+    {
+      "name": "dist_to_segment_m",
+      "category": "Spatial",
+      "dtype": "float64",
+      "description": "Perpendicular metric distance from GPS point to projected road segment.",
+      "min_expected": 0.0,
+      "max_expected": 50.0
+    },
+    {
+      "name": "log_dist_to_segment",
+      "category": "Spatial",
+      "dtype": "float64",
+      "description": "Natural log of 1 + orthogonal distance.",
+      "min_expected": 0.0,
+      "max_expected": 4.0
+    },
+    {
+      "name": "tau_along_segment",
+      "category": "Spatial",
+      "dtype": "float64",
+      "description": "Longitudinal fraction of projection along arc [0, 1].",
+      "min_expected": 0.0,
+      "max_expected": 1.0
+    },
+    {
+      "name": "cand_arc_length_m",
+      "category": "Spatial",
+      "dtype": "float64",
+      "description": "Physical metric length of candidate arc.",
+      "min_expected": 1.0,
+      "max_expected": 5000.0
+    },
+    {
+      "name": "delta_heading_deg",
+      "category": "Directional",
+      "dtype": "float64",
+      "description": "Absolute angular difference between trajectory heading and arc direction [0, 180].",
+      "min_expected": 0.0,
+      "max_expected": 180.0
+    },
+    {
+      "name": "cos_delta_heading",
+      "category": "Directional",
+      "dtype": "float64",
+      "description": "Cosine of angular heading difference [-1, 1].",
+      "min_expected": -1.0,
+      "max_expected": 1.0
+    },
+    {
+      "name": "bearing_concordance",
+      "category": "Directional",
+      "dtype": "float64",
+      "description": "Binary flag indicating whether delta_heading <= 45 degrees.",
+      "min_expected": 0.0,
+      "max_expected": 1.0
+    },
+    {
+      "name": "delta_t_s",
+      "category": "Temporal/Kinematic",
+      "dtype": "float64",
+      "description": "Elapsed seconds since previous observation.",
+      "min_expected": 0.0,
+      "max_expected": 3600.0
+    },
+    {
+      "name": "obs_speed_mps",
+      "category": "Temporal/Kinematic",
+      "dtype": "float64",
+      "description": "Kinematic speed in meters per second.",
+      "min_expected": 0.0,
+      "max_expected": 70.0
+    },
+    {
+      "name": "obs_accel_mps2",
+      "category": "Temporal/Kinematic",
+      "dtype": "float64",
+      "description": "Kinematic acceleration in meters per second squared.",
+      "min_expected": -30.0,
+      "max_expected": 30.0
+    },
+    {
+      "name": "speed_length_ratio",
+      "category": "Temporal/Kinematic",
+      "dtype": "float64",
+      "description": "Dimensionless ratio of displacement (v * dt) to arc length.",
+      "min_expected": 0.0,
+      "max_expected": 100.0
+    },
+    {
+      "name": "is_1hop_reachable",
+      "category": "Topological",
+      "dtype": "float64",
+      "description": "Binary indicator: current candidate directly connects to previous candidate.",
+      "min_expected": 0.0,
+      "max_expected": 1.0
+    },
+    {
+      "name": "is_2hop_reachable",
+      "category": "Topological",
+      "dtype": "float64",
+      "description": "Binary indicator: current candidate reachable via 2-hop graph traversal.",
+      "min_expected": 0.0,
+      "max_expected": 1.0
+    },
+    {
+      "name": "rank_by_distance",
+      "category": "Ranking/Contextual",
+      "dtype": "float64",
+      "description": "Zero-indexed rank of candidate sorted by distance (0 = closest).",
+      "min_expected": 0.0,
+      "max_expected": 30.0
+    },
+    {
+      "name": "rank_by_heading",
+      "category": "Ranking/Contextual",
+      "dtype": "float64",
+      "description": "Zero-indexed rank of candidate sorted by heading alignment (0 = most aligned).",
+      "min_expected": 0.0,
+      "max_expected": 30.0
+    },
+    {
+      "name": "distance_margin_m",
+      "category": "Ranking/Contextual",
+      "dtype": "float64",
+      "description": "Distance difference relative to closest candidate (d_i - d_0).",
+      "min_expected": 0.0,
+      "max_expected": 50.0
+    },
+    {
+      "name": "heading_margin_deg",
+      "category": "Ranking/Contextual",
+      "dtype": "float64",
+      "description": "Heading alignment difference relative to best-aligned candidate.",
+      "min_expected": 0.0,
+      "max_expected": 180.0
+    },
+    {
+      "name": "num_candidates_at_obs",
+      "category": "Ranking/Contextual",
+      "dtype": "float64",
+      "description": "Total candidate count generated for current observation.",
+      "min_expected": 1.0,
+      "max_expected": 30.0
+    }
+  ],
+  "feature_names": [
+    "dist_perp",
+    "arc_length",
+    "proj_ratio",
+    "gps_displacement",
+    "dist_margin",
+    "road_bearing",
+    "gps_bearing",
+    "angular_diff",
+    "heading_cos",
+    "dt_sec",
+    "speed_mps",
+    "accel_mps2",
+    "is_connected_prev",
+    "net_to_euc_ratio",
+    "target_out_degree",
+    "spatial_likelihood",
+    "cand_rank",
+    "cand_rel_dist"
+  ]
+}

@@ -1,0 +1,2 @@
+# Git LFS tracking for large binary candidate datasets
+pathsnap/data/*.joblib filter=lfs diff=lfs merge=lfs -text

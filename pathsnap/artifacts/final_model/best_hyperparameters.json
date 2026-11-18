@@ -1,0 +1,43 @@
+{
+  "model_family": "HistGradientBoostingClassifier",
+  "best_trial_number": 6,
+  "search_macro_f1": 0.8271511389940485,
+  "final_5fold_cv_macro_f1": 0.842586111055535,
+  "final_5fold_cv_macro_f1_std": 0.03360367352594454,
+  "final_5fold_cv_top1_acc": 0.7796823048746531,
+  "final_5fold_cv_top1_acc_std": 0.07492314077688786,
+  "final_5fold_cv_recall": 0.907148091260708,
+  "final_5fold_cv_precision": 0.6286770436328336,
+  "final_5fold_cv_log_loss": 0.21936374234563324,
+  "parameters": {
+    "learning_rate": 0.04195308906464341,
+    "max_iter": 160,
+    "max_leaf_nodes": 29,
+    "min_samples_leaf": 30,
+    "l2_regularization": 0.3385226783451977,
+    "class_weight": "balanced"
+  },
+  "optimization_sampler": "TPESampler",
+  "n_trials": 30,
+  "feature_names": [
+    "dist_perp",
+    "arc_length",
+    "proj_ratio",
+    "gps_displacement",
+    "dist_margin",
+    "road_bearing",
+    "gps_bearing",
+    "angular_diff",
+    "heading_cos",
+    "dt_sec",
+    "speed_mps",
+    "accel_mps2",
+    "is_connected_prev",
+    "net_to_euc_ratio",
+    "target_out_degree",
+    "spatial_likelihood",
+    "cand_rank",
+    "cand_rel_dist"
+  ],
+  "num_features": 18
+}
