@@ -1,0 +1,3 @@
+method,prepare_seconds,decode_seconds,observations,aligned_observations,assigned_observations,pointwise_accuracy,eligible_transitions,connected_transitions,continuity,breaks,normalized_route_edit_distance
+classifier_only,0.7691156600001705,0.12014009000013175,1916.0,1913.1,1916.0,0.8388293088378166,1912.3,1735.9,0.9139785480580167,179.1,0.5288477693576793
+classifier_plus_hmm,0.7691156600001705,0.7985804999998436,1916.0,1913.1,1916.0,0.8995245685662588,1912.3,1908.2,0.9981093770784891,6.8,0.1809613001596289

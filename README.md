@@ -174,7 +174,8 @@ Five distinct model families were implemented, trained using 5-fold `GroupKFold`
 - **Calibrated Probabilities**: Produces smooth probability distributions suitable for direct conversion to HMM emission log-likelihoods.
 
 ### Bayesian Hyperparameter Optimisation (Optuna)
-Executed 30 objective trials optimizing Macro-F1 using 3-fold GroupKFold:
+The original subset experiment executed 30 objective trials using 3-fold
+GroupKFold. Its recorded parameters were:
 - `learning_rate`: `0.04195`
 - `max_iter`: `160`
 - `max_leaf_nodes`: `29`
@@ -188,11 +189,17 @@ Saved artifacts are exported in `pathsnap/artifacts/final_model/`:
 - `feature_schema.json`: Complete 18-feature specification with descriptions and ranges
 - `best_hyperparameters.json`: Optuna optimal parameters
 
+The subsequent full-training search evaluated eight Optuna trials using five
+grouped folds across all 80 training trips. Its tuned model and comparison
+are in `results/bayesian-full/`, and the measured phase summary is in
+[`results/phase3-phase4-summary.md`](results/phase3-phase4-summary.md).
+
 ---
 
 ## 10. HMM & Viterbi Decoding Integration Status
 
-- **Status**: **Architecture Designed & Interface Specified** (Pending Phase 4 Full Execution)
+- **Status**: Implemented and evaluated on all ten student-test trips. The
+  implementation and measured comparison are described in the execution guide.
 - **Mathematical Design**:
   - State space: Set of candidate arcs $\mathcal{C}_t = \{c_t^1, \dots, c_t^K\}$ for each observation $t$.
   - Emission probability: $P(z_t \mid c_t^i) = P_{\text{ML}}(\text{label}=1 \mid \mathbf{x}_t^i)$.
@@ -259,18 +266,59 @@ python -m pathsnap.experiments.benchmark_runner
 
 ### 3. Run Bayesian Hyperparameter Optimisation
 ```bash
-python -m pathsnap.experiments.hyperparameter_tuning
+git lfs pull --include="pathsnap/data/train_candidates.joblib,pathsnap/data/student_test_candidates.joblib"
+python -m pathsnap.experiments.full_bayesian_optimization --trials 8 --out results/bayesian-full
 ```
 
-### 4. Export Final Model Artifacts
-```bash
-python -m pathsnap.artifacts.export_final_model
-```
+Use a new output directory for each run. This run evaluates every trial on five
+trip-grouped folds across all 80 training trips. Optuna's seeded TPE sampler
+starts with the benchmark baseline and the previous subset winner, then searches
+learning rate, iteration count, leaf count, minimum leaf size, L2 regularization,
+and class weighting. Internal row-based early stopping is disabled throughout.
+The objective is mean candidate-level Macro F1, matching the earlier search.
+
+After selection, both configurations are refitted on all 80 trips and evaluated
+on the aligned candidates from all 10 student-test trips. The output directory contains the fold assignment,
+per-trial and per-fold results, tuned-versus-baseline metrics, runtime and model
+metadata, and both reload-verified models. Observation-level Macro F1 is reported
+for observations with a retrieved reference arc, since the candidate cache does
+not retain the missing reference arc ID. Top-1 includes misses among aligned
+observations represented in the cache.
+Use the same command with `--finish-existing` to refit and evaluate from a complete
+search if the export was interrupted.
+
+### 4. Locate the exported model
+
+The full-training search exports `tuned_model.joblib` and `model_config.json`
+to its output directory. The original subset export command reads the original
+configuration under `pathsnap/artifacts/final_model/`.
 
 ### 5. Generate Folium Interactive Maps & Screenshots
 ```bash
 python -m pathsnap.visualization.generate_eda_maps
 ```
+
+### 6. Run the HMM/Viterbi comparison
+
+```bash
+python -m pathsnap.decoding.evaluate --model results/bayesian-full/tuned_model.joblib --out results/hmm-viterbi
+```
+
+The decoder uses one directed candidate arc per observation as its hidden state.
+It maximizes the sum of log classifier scores and transition scores. Transitions
+penalize the difference between GPS displacement and the shortest directed
+distance between projected candidate positions. Implausible distances, missing
+candidates, and timestamp gaps produce explicit route breaks. Directed connecting
+arcs are included in the reconstructed route segments.
+
+The comparison selects the transition scale on four training trips, then runs
+classifier argmax and classifier-plus-Viterbi on identical candidates from all
+ten student-test trips. It reports pointwise accuracy on aligned observations,
+continuity on eligible consecutive assignments, normalized route edit distance
+(lower is better), and timing. The phase exports a decoder configuration,
+per-trip results, and predicted assignments and route segments. For serving,
+`pathsnap.decoding.pipeline.predict_trip` uses the track and road-network files.
+The evaluation command loads reference routes separately after prediction.
 
 ---
 
@@ -316,8 +364,8 @@ flowchart LR
 | **Phase 1: Problem Exploration & Analysis** | **COMPLETED** | Inventory, literature analysis, and mathematical architecture reports |
 | **Phase 2: Preprocessing & 18-D Features** | **COMPLETED** | Equirectangular projection, KD-tree generator ($99.5\%$ recall), 18-D pipeline |
 | **Phase 3: Full 5-Model Benchmark** | **COMPLETED** | 5-Fold GroupKFold CV across 80 trips; LogReg, RF, ExtraTrees, HistGB, MLP |
-| **Phase 3: Optuna Bayesian Optimisation** | **COMPLETED** | 30 trials targeting Macro-F1; best trial identified and documented |
+| **Phase 3: Optuna Bayesian Optimisation** | **COMPLETED** | Eight full-training, five-fold trials targeting candidate Macro F1 |
 | **Phase 3: Production Model Export** | **COMPLETED** | Serialized `model.joblib`, schema, and hyperparameters in `artifacts/final_model/` |
 | **Geographical Visualisation (Folium)** | **COMPLETED** | Multi-layer interactive maps and PNG screenshots for trips `00000000` and `00000001` |
-| **Phase 4: HMM & Viterbi Decoder** | *Pending* | Transition formulation designed; full dynamic programming solver in next sprint |
+| **Phase 4: HMM & Viterbi Decoder** | **COMPLETED** | Classifier-only versus decoded comparison on all ten student-test trips |
 | **Phase 5: Distributed API & UI (Laptop 1/2)** | *Pending* | FastAPI server and Streamlit evaluator dashboard in upcoming deployment sprint |
