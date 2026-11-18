@@ -1,0 +1,19 @@
+# Raw data (provided separately; do not commit)
+data/*
+!data/.gitkeep
+Student folder/
+student_test/
+train/
+*.zip
+*.mp4
+# Secrets
+.env
+*.key
+*.pem
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+.DS_Store
